@@ -102,7 +102,7 @@ ${goto 20}Overall: ${font Droid Sans:style=Bold:size=8}${totalup enp0s25}${font}
 ${voffset 4}${goto 20}Download: ${font Droid Sans:style=Bold:size=8}${downspeed wlp3s0}${font} ${alignr}${downspeedgraph wlp3s0 8,50 EEEEEE}
 ${goto 20}Overall: ${font Droid Sans:style=Bold:size=8}${totaldown wlp3s0}${font}
 ${voffset 4}${goto 20}Local IP: ${alignr}${font Droid Sans:style=Bold:size=8}${addr wlp3s0}${font}
-${goto 20}Public IP: ${alignr}${font Droid Sans:style=Bold:size=8}${execi 10800 ~/bin/public_ip}${font}
+${goto 20}Public IP: ${alignr}${font Droid Sans:style=Bold:size=8}${execi 10800 ~/bin/public_ip.lua}${font}
 ##########
 # - HD - #
 ##########
