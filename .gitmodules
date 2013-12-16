@@ -1,3 +1,6 @@
 [submodule "bin/lightsOn"]
 	path = bin/lightsOn
 	url = https://github.com/iye/lightsOn.git
+[submodule "vim/bundle/vim-colorschemes"]
+	path = vim/bundle/vim-colorschemes
+	url = https://github.com/ndzou/vim-colorschemes.git
