@@ -9,7 +9,8 @@ urxvt*url-launcher: /usr/bin/chromium
 urxvt.matcher.button: 1
 urxvt*visualBell: true
 urxvt*depth: 32
-urxvt*background: rgba:0000/0000/0200/c800
+!urxvt*background: rgba:0000/0000/0200/c800
+urxvt*background: rgba:0000/0000/0200/e100
 urxvt*cursorBlink: 1
 urxvt*borderWidth: 0
 

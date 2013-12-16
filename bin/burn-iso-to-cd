@@ -1,0 +1,2 @@
+#!/bin/sh
+wodim -v -sao dev=/dev/sr0 $1
