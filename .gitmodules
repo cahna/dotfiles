@@ -34,3 +34,6 @@
 [submodule "vim/bundle/vim-fugitive"]
 	path = vim/bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
+[submodule "bin/create_ap"]
+	path = bin/create_ap
+	url = https://github.com/oblique/create_ap.git

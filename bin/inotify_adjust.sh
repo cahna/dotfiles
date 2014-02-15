@@ -1,1 +1,1 @@
-echo 10000 > /proc/sys/fs/inotify/max_user_watches
+echo 12800 > /proc/sys/fs/inotify/max_user_watches
