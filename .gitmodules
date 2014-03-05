@@ -37,3 +37,9 @@
 [submodule "bin/create_ap"]
 	path = bin/create_ap
 	url = https://github.com/oblique/create_ap.git
+[submodule "vim/bundle/nginx.vim"]
+	path = vim/bundle/nginx.vim
+	url = https://github.com/vim-scripts/nginx.vim.git
+[submodule "vim/bundle/command-t"]
+	path = vim/bundle/command-t
+	url = git://git.wincent.com/command-t.git
