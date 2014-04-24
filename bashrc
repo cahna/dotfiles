@@ -67,27 +67,6 @@ BMagenta="\[\033[1;35m\]"
 BCyan="\[\033[1;36m\]"
 BWhite="\[\033[1;37m\]"
 
-__battery_status() {
-  local SMAPI=/sys/devices/platform/smapi
-  local BAT=$SMAPI/BAT0
-  local ac_conn=$(cat $SMAPI/ac_connected)
-  local bat_perc=$(cat $BAT/remaining_percent)
-
-  local charge_sym="${Green}+"
-  if [ $ac_conn -eq 0 ]; then
-    charge_sym="${Yellow}-"
-  fi
-  
-  local bat_color="${Red}"
-  if [ $bat_perc -gt 20 ]; then 
-    bat_color="${Yellow}"
-  elif [ $bat_perc -gt 50 ]; then
-    bat_color="${Green}"
-  fi
-
-  echo "${charge_sym}${bat_color}${bat_perc}"
-}
-
 #
 # PS1 Configuration
 #
@@ -127,10 +106,9 @@ bash_prompt() {
   local HOST="${Green}\h"
   local DIR="${Cyan}${NEW_PWD}"
   local USER="${UC}\u"
-  local BATT_STATUS="$(__battery_status)${White}%"
   local EXIT_COLOR="\$(if [ $EXIT -eq 0 ]; then echo \"${White}\"; else echo \"${BRed}\"; fi)"
   local GIT_INFO="\$(if [ -d ./.git ]; then echo \" $C(\$(if [[ \$(git status --short | sed -s 's/^ //g' | cut -d' ' -f1 | wc -l) > 0 ]]; then echo \"$Red\"; else echo \"$Green\"; fi)\$(__git_ps1 '%s')$C)\"; fi)"
-  local HOST_INFO="${C}[${USER}${Red}@${HOST}${C}:${DIR}${C}] ${BATT_STATUS}${GIT_INFO}${ColorOff}"
+  local HOST_INFO="${C}[${USER}${Red}@${HOST}${C}:${DIR}${C}] ${GIT_INFO}${ColorOff}"
 
   PS1="\n${HOST_INFO}\n$EXIT_COLOR\$>${ColorOff} "
   PS2="${BWhite}>${ColorOff} "
