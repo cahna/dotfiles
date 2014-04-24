@@ -2,12 +2,16 @@
 # My dotfiles installer
 #
 
+HOSTNAME = $(shell hostname)
 DEST_DIR = ./test-zone
 DOTFILES_SRC = vimrc bashrc
 
 # Look for available user programs
 ECHO ?= echo
 TPUT ?= tput
+MKDIR_P ?= mkdir -p
+CURL_SSO ?= curl -Sso
+VIM_EXECUTABLE ?= $(shell which vi)
 
 # This ensures that even when echo is a shell builtin, we still use the binary
 # (the builtin doesn't always understand -n)
@@ -55,36 +59,45 @@ C_FAILURE	  := $(call get-color,FAILURE)
 C_R   		  := $(reset)
 
 help:
+	@$(ECHO) ''
 	@$(ECHO) 'Makefile for dotfiles (including OS-specific porting of configs)'
-	@$(ECHO) ''
 	@$(ECHO) 'Usage:'
-	@$(ECHO) '   make diff                diff src dotfiles & installed dotfiles (are updates needed?)'
-	@$(ECHO) '   make check               check environment to see if make will succeed'
-	@$(ECHO) '   make test                verify that install procedure succeeded'
-	@$(ECHO) '   make clean               remove temp files, dependencies, and sources from build directory'
-	@$(ECHO) '   make uninstall           remove dotfiles completely from user environment'
+	@$(ECHO) '   $(C_INFO)make diff$(C_R)                diff src dotfiles & installed dotfiles (are updates needed?)'
+	@$(ECHO) '   $(C_INFO)make check$(C_R)               check environment to see if make will succeed'
+	@$(ECHO) '   $(C_INFO)make test$(C_R)                verify that install procedure succeeded'
+	@$(ECHO) '   $(C_INFO)make clean$(C_R)               remove temp files, dependencies, and sources from build directory'
+	@$(ECHO) '   $(C_INFO)make uninstall$(C_R)           remove dotfiles completely from user environment'
 	@$(ECHO) ''
-	@$(ECHO) '   $(C_DEBUG)make fonts$(C_R)               install custom fonts'
-	@$(ECHO) '   $(C_DEBUG)make bash$(C_R)                install bashrc'
-	@$(ECHO) '   $(C_DEBUG)make vim$(C_R)                 install vim files'
-	@$(ECHO) '   $(C_DEBUG)make vim-plugins$(C_R)         fetch vim pathogen plugins'
+	@$(ECHO) '   $(C_INFO)make fonts$(C_R)               install custom fonts'
+	@$(ECHO) '   $(C_INFO)make bash$(C_R)                install bashrc'
+	@$(ECHO) '   $(C_INFO)make vim$(C_R)                 install vim files'
+	@$(ECHO) '   $(C_INFO)make vim-plugins$(C_R)         fetch vim pathogen plugins'
 	@$(ECHO) ''
-	@$(ECHO) '   $(C_FAILURE)make$(C_R)                 fetch and prepare everything'
-	@$(ECHO) '   $(C_FAILURE)make install$(C_R)             make all, then install to DEST_DIR ($(DEST_DIR))'
+	@$(ECHO) '   $(C_INFO)make$(C_R)	                   fetch and prepare everything'
+	@$(ECHO) '   $(C_INFO)make install$(C_R)             make all, then install to DEST_DIR ($(DEST_DIR))'
+	@$(ECHO) ''
 
-vim:
-ifeq ($(shell uname),Darwin)
-	echo "ITSAMAC!"
-	exit 1
-else
-	echo "Not a mac..."
-endif
+all: vim
+	# Protect against committing changes directly to master on a new host
+	git checkout -b $(HOSTNAME) || git checkout $(HOSTNAME)
 
-vim-plugins: vim
+vim: vim/autoload/pathogen.vim vim/bundle/%
+
+$(HOME)/.vim:
+	ln -s $(CURDIR)/vim $(HOME)/.vim
+
+$(HOME)/.vimrc:
+	ln -s $(CURDIR)/vimrc $(HOME)/.vimrc
+
+vim/autoload/pathogen.vim:
+	mkdir -p ./vim/autoload
+	curl -Sso ~/vim/autoload/pathogen.vim \
+    https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+
+vim/bundle/%: vim/autoload/pathogen.vim
+	mkdir -p ./vim/bundle
 	git submodule init
 	git submodule update
-
-	# Build command-t's c-plugin
 	cd ./vim/bundle/command-t/ruby/command-t && ruby extconf.rb && make
 
 diff:
