@@ -60,65 +60,19 @@ C_R               := $(reset)
 
 help:
 	@$(ECHO) ''
-	@$(ECHO) 'Makefile for dotfiles (including OS-specific porting of configs)'
+	@$(ECHO) 'Makefile wrapping common ansible setup tasks'
 	@$(ECHO) 'Usage:'
-	@$(ECHO) '   $(C_INFO)make diff$(C_R)                diff src dotfiles & installed dotfiles (are updates needed?)'
-	@$(ECHO) '   $(C_INFO)make check$(C_R)               check environment to see if make will succeed'
-	@$(ECHO) '   $(C_INFO)make test$(C_R)                verify that install procedure succeeded'
-	@$(ECHO) '   $(C_INFO)make clean$(C_R)               remove temp files, dependencies, and sources from build directory'
-	@$(ECHO) '   $(C_INFO)make uninstall$(C_R)           remove dotfiles completely from user environment'
-	@$(ECHO) ''
-	@$(ECHO) '   $(C_INFO)make fonts$(C_R)               install custom fonts'
-	@$(ECHO) '   $(C_INFO)make bash$(C_R)                install bashrc'
-	@$(ECHO) '   $(C_INFO)make vim$(C_R)                 install vim files'
-	@$(ECHO) '   $(C_INFO)make vim-plugins$(C_R)         fetch vim pathogen plugins'
-	@$(ECHO) ''
-	@$(ECHO) '   $(C_INFO)make$(C_R)	                   fetch and prepare everything'
-	@$(ECHO) '   $(C_INFO)make install$(C_R)             make all, then install to DEST_DIR ($(DEST_DIR))'
+	@$(ECHO) '   $(C_INFO)make check$(C_R)               show diff (are updates needed?)'
+	@$(ECHO) '   $(C_INFO)make install$(C_R)             provision localhost configuration with ansible'
+	@$(ECHO) '   $(C_INFO)make info$(C_R)                show ansible information'
 	@$(ECHO) ''
 
-all: vim
-	# Protect against committing changes directly to master on a new host
-	git checkout -b $(HOSTNAME) || git checkout $(HOSTNAME)
+check:
+	/usr/bin/env ansible-playbook -i hosts site.yml --check --diff
 
-vim: vim/autoload/pathogen.vim vim/bundle/command-t/ruby
+install:
+	/usr/bin/env ansible-playbook -i hosts site.yml
 
-$(HOME)/.vim:
-	ln -s $(CURDIR)/vim $(HOME)/.vim
-
-$(HOME)/.vimrc:
-	ln -s $(CURDIR)/vimrc $(HOME)/.vimrc
-
-vim/autoload/pathogen.vim:
-	mkdir -p $(CURDIR)/vim/autoload
-	wget --no-check-certificate -O $(CURDIR)/vim/autoload/pathogen.vim \
-    https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
-
-vim/bundle/command-t/ruby: vim/autoload/pathogen.vim
-	mkdir -p $(CURDIR)/vim/bundle
-	git submodule init
-	git submodule update
-	cd $(CURDIR)/vim/bundle/command-t/ruby/command-t && ruby extconf.rb && make
-
-git-config:
-	git config --global user.name 'Conor Heine'
-	git config --global user.email 'conor.heine@gmail.com'
-	git config --global push.default simple
-
-diff:
-	@for f in $(DOTFILES_SRC); do \
-		diff -q $(CURDIR)/$$f $(HOME)/.$$f;\
-	done
-
-install: $(HOME)/.vim $(HOME)/.vimrc
-
-test: diff
-
-clean:
-	rm -rf $(CURDIR)/vim/autoload
-	rm -rf $(CURDIR)/vim/bundle
-
-uninstall:
-	unlink $(HOME)/.vimrc
-	unlink $(HOME)/.vim
+facts:
+	/usr/bin/env ansible ass -i hosts -m setup
 

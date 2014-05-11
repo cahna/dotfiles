@@ -1,0 +1,2 @@
+# If local bin, add it to front of path
+[[ -d ~/bin ]] && PATH="~/bin:$PATH"
