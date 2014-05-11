@@ -81,7 +81,7 @@ all: vim
 	# Protect against committing changes directly to master on a new host
 	git checkout -b $(HOSTNAME) || git checkout $(HOSTNAME)
 
-vim: vim/autoload/pathogen.vim vim/bundle/%
+vim: vim/autoload/pathogen.vim vim/bundle/command-t/ruby
 
 $(HOME)/.vim:
 	ln -s $(CURDIR)/vim $(HOME)/.vim
@@ -90,25 +90,34 @@ $(HOME)/.vimrc:
 	ln -s $(CURDIR)/vimrc $(HOME)/.vimrc
 
 vim/autoload/pathogen.vim:
-	mkdir -p ./vim/autoload
-	curl -Sso ~/vim/autoload/pathogen.vim \
+	mkdir -p $(CURDIR)/vim/autoload
+	wget --no-check-certificate -O $(CURDIR)/vim/autoload/pathogen.vim \
     https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 
-vim/bundle/%: vim/autoload/pathogen.vim
-	mkdir -p ./vim/bundle
+vim/bundle/command-t/ruby: vim/autoload/pathogen.vim
+	mkdir -p $(CURDIR)/vim/bundle
 	git submodule init
 	git submodule update
-	cd ./vim/bundle/command-t/ruby/command-t && ruby extconf.rb && make
+	cd $(CURDIR)/vim/bundle/command-t/ruby/command-t && ruby extconf.rb && make
+
+git-config:
+	git config --global user.name 'Conor Heine'
+	git config --global user.email 'conor.heine@gmail.com'
 
 diff:
 	@for f in $(DOTFILES_SRC); do \
-		diff -q ./$$f ~/.$$f;\
+		diff -q $(CURDIR)/$$f $(HOME)/.$$f;\
 	done
 
-install: update dotfiles
+install: $(HOME)/.vim $(HOME)/.vimrc
 
 test: diff
 
 clean:
-	# TODO: Sanely clean up
+	rm -rf $(CURDIR)/vim/autoload
+	rm -rf $(CURDIR)/vim/bundle
+
+uninstall:
+	unlink $(HOME)/.vimrc
+	unlink $(HOME)/.vim
 
