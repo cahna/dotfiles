@@ -103,6 +103,7 @@ vim/bundle/command-t/ruby: vim/autoload/pathogen.vim
 git-config:
 	git config --global user.name 'Conor Heine'
 	git config --global user.email 'conor.heine@gmail.com'
+	git config --global push.default simple
 
 diff:
 	@for f in $(DOTFILES_SRC); do \
