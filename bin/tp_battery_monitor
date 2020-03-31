@@ -1,0 +1,4 @@
+#!/bin/sh
+
+while true; do sleep 300s; ~/bin/battery_warning.sh; done
+

@@ -3,14 +3,16 @@
 # Put this script in /etc/wicd/preconnect
 
 connection_type="$1"
+WL_IF="wlp3s0"
+LAN_IF="enp0s25"
 
 if [[ "${connection_type}" == "wireless" ]]; then
-  ip link set wlp3s0 down
-  macchanger -e wlp3s0
-  ip link set wlp3s0 up
+  ip link set $WL_IF down
+  macchanger -e $WL_IF
+  ip link set $WL_IF up
 elif [[ "${connection_type}" == "wired" ]]; then
-  ip link set enp0s25 down
-  macchanger -e enp0s25
-  ip link set enp0s25 up
+  ip link set $LAN_IF down
+  macchanger -e $LAN_IF
+  ip link set $LAN_IF up
 fi
 

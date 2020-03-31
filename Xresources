@@ -1,62 +1,62 @@
-urxvt*loginShell      : true
-urxvt*imLocale        : en_US.UTF-8
-urxvt*xftAntialias    : true
-urxvt*borderless      : true
-urxvt*scrollBar       : false
-urxvt*internalBorder  : 2
-urxvt*perl-ext-common : default,matcher
-urxvt*url-launcher    : /usr/bin/chromium
-urxvt.matcher.button  : 1
-urxvt*visualBell      : true
-urxvt*depth           : 32
-urxvt*background      : rgba:0000/0000/0200/e100
-urxvt*cursorBlink     : 1
-urxvt*borderWidth     : 0
+!! Colorscheme
 
-*font                 : xft:Meslo LG S for Powerline:pixelsize=11:antialias=true,\
-                        xft:Meslo LG S:pixelsize=11:antialias=true,\
-                        xft:Mensch:size=9:antialias=true,\
-                        xft:Inconsolata:pixelsize=13:antialias=true,\
-                        xft:Monofur:style=Medium:hinting=true:pixelsize=13:antialias=true
+! special
+*.foreground: #93a1a1
+*.background: #141c21
+*.cursorColor: #afbfbf
 
-!*boldFont            : xft:Inconsolata:bold:pixelsize=13:antialias=true
+! black
+*.color0: #263640
+*.color8: #4a697d
 
-*letterSpace          : -1
+! red
+*.color1: #d12f2c
+*.color9: #fa3935
 
-!! Colors !!
+! green
+*.color2: #819400
+*.color10: #a4bd00
 
-*background           : #292929
-*foreground           : #dedede
+! yellow
+*.color3: #b08500
+*.color11: #d9a400
 
-!!black
-*color0               : #363636
-*color8               : #828282
+! blue
+*.color4: #2587cc
+*.color12: #2ca2f5
 
-!!red
-*color1               : #d96468
-*color9               : #d98f93
+! magenta
+*.color5: #696ebf
+*.color13: #8086e8
 
-!!green
-*color2               : #a2d964
-*color10              : #b8d98f
+! cyan
+*.color6: #289c93
+*.color14: #33c5ba
 
-!!yellow
-*color3               : #d9c964
-*color11              : #d9cf8f
+! white
+*.color7: #bfbaac
+*.color15: #fdf6e3
 
-!!blue
-*color4               : #0390c4
-*color12              : #3d84cf
-
-!!magenta
-*color5               : #9a64d9
-*color13              : #b08fd9
-
-!!cyan
-*color6               : #64d9d5
-*color14              : #8fd9d5
-
-!!white
-*color7               : #989898
-*color15              : #C5C5C5
+!! URxvt Appearance
+URxvt.background: rgba:0000/0000/0200/e100
+URxvt.boldFont: xft:Iosevka:style=Bold:size=8
+URxvt.boldItalicfont: xft:Iosevka:style=Bold Italic:size=8
+URxvt.borderless: true
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.depth: 32
+URxvt.font: xft:Iosevka:style=Regular:size=8
+URxvt.geometry: 92x24
+URxvt.internalBorder: 8
+URxvt.iso14755: false
+URxvt.italicFont: xft:Iosevka:style=Italic:size=8
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+URxvt.matcher.button: 1
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.urgentOnBell: true
+URxvt.visualBell: true
+URxvt.xftAntialias: true
 

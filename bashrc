@@ -5,8 +5,52 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Import git-prompt for __git_ps1 usage
-[[ -f /usr/share/git/completion/git-prompt.sh ]] && source /usr/share/git/completion/git-prompt.sh
+
+#
+# User / Desktop settings
+#
+
+TZ='America/Los_Angeles'; export TZ
+
+# Default editor = vim
+export EDITOR=vim
+
+# Environment variables to colorize 'man'
+export LESS_TERMCAP_mb=$'\E[01;31m' \
+  LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+  LESS_TERMCAP_me=$'\E[0m' \
+  LESS_TERMCAP_se=$'\E[0m' \
+  LESS_TERMCAP_so=$'\E[38;5;246m' \
+  LESS_TERMCAP_ue=$'\E[0m' \
+  LESS_TERMCAP_us=$'\E[04;38;5;146m' 
+
+# Colorize the ls output ##
+alias ls='ls --color=auto'
+alias ll='ls -l'
+alias la='ls -la'
+alias l.='ls -ld .* --color=auto'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias diff='colordiff'
+alias ports='netstat -tulanp'
+
+# Buckle up for safety
+alias rm='rm -I --preserve-root'
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
+# Others
+alias df='df -H'
+alias du='du -ch'
+alias torchrocks='luarocks --server=https://raw.github.com/torch/rocks/master'
+
+# Fix line wrap on window size
+shopt -s checkwinsize
 
 #
 # HELPERS
@@ -137,61 +181,6 @@ bash_prompt() {
 }
 
 PROMPT_COMMAND=bash_prompt
-
-#
-# User / Desktop settings
-#
-
-TZ='America/Kentucky/Louisville'; export TZ
-#TZ='America/Chicago'; export TZ
-
-# Default editor = vim
-export EDITOR=vim
-
-# Environment variables to colorize 'man'
-export LESS_TERMCAP_mb=$'\E[01;31m' \
-  LESS_TERMCAP_md=$'\E[01;38;5;74m' \
-  LESS_TERMCAP_me=$'\E[0m' \
-  LESS_TERMCAP_se=$'\E[0m' \
-  LESS_TERMCAP_so=$'\E[38;5;246m' \
-  LESS_TERMCAP_ue=$'\E[0m' \
-  LESS_TERMCAP_us=$'\E[04;38;5;146m' 
-
-# Unbind Ctrl+S and Ctrl+Q from screen output (conflicts with rtorrent)
-stty stop undef
-stty start undef
-
-# Ruby is stupid as hell
-PATH=$PATH:/home/cheine/.gem/ruby/2.0.0/bin
-export GEM_HOME=~/.gem/ruby/2.0.0
-
-# Colorize the ls output ##
-alias ls='ls --color=auto'
-alias ll='ls -l'
-alias la='ls -la'
-alias l.='ls -ld .* --color=auto'
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias diff='colordiff'
-alias ports='netstat -tulanp'
-
-# Buckle up for safety
-alias rm='rm -I --preserve-root'
-alias mv='mv -i'
-alias cp='cp -i'
-alias ln='ln -i'
-alias chown='chown --preserve-root'
-alias chmod='chmod --preserve-root'
-alias chgrp='chgrp --preserve-root'
-
-# Others
-alias df='df -H'
-alias du='du -ch'
-alias torchrocks='luarocks --server=https://raw.github.com/torch/rocks/master'
-
-# Fix line wrap on window size
-shopt -s checkwinsize
 
 #if [ "$PS1" ]; then
   # Display a fortune
