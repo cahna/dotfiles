@@ -26,7 +26,7 @@ sudo apt-get install -y \
     zathura zathura-pdf-poppler \
     jq \
     htop \
-    python3 python3-pip
+    python3 python3-pip python3-venv
 
 
 sudo apt-get autoremove -y
@@ -83,6 +83,13 @@ if [ -z "$(which docker)" ]; then
         stable"
     sudo apt update -y
     sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose
+fi
+
+##
+# Install Poetry
+##
+if [ -z "$(which poetry)" ]; then
+    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 fi
 
 echo "DONE!"
